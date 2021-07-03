@@ -1,0 +1,22 @@
+#! /bin/sh
+
+set -e
+
+# ignore loopback
+if [ "$IFACE" = lo ]; then
+        exit 0
+fi
+
+# only run from ifup
+if [ "$MODE" != start ]; then
+        exit 0
+fi
+
+# only do it once (skip for inet6)
+if [ "$ADDRFAM" != inet ]; then
+        exit 0
+fi
+
+/sbin/iw dev wlan0 set power_save off
+
+exit 0
